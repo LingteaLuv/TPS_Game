@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
     
     [SerializeField] private KeyCode aimKey = KeyCode.Mouse1;
 
+    [SerializeField] private Animator animator;
+
     public bool IsControlActivate { get; set; } = true;
     private void Awake()
     {
@@ -40,6 +42,7 @@ public class PlayerController : MonoBehaviour
     {
         status = GetComponent<PlayerStatus>();
         movement = GetComponent<PlayerMovement>();
+        animator = GetComponent<Animator>();
     }
 
     private void HandlePlayerControl()
@@ -76,10 +79,17 @@ public class PlayerController : MonoBehaviour
     public void SubscribeEvents()
     {
         status.IsAiming.Subscribe(aimCam.gameObject.SetActive);
+        status.IsAiming.Subscribe(SetAimAnimation);
     }
 
     public void UnSubscribeEvents()
     {
         status.IsAiming.Unsubscribe(aimCam.gameObject.SetActive);
+        status.IsAiming.Unsubscribe(SetAimAnimation);
+    }
+
+    private void SetAimAnimation(bool value)
+    {
+        animator.SetBool("IsAim", value);
     }
 }
