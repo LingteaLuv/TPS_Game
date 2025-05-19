@@ -3,14 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using Cinemachine;
 
 public class PlayerController : MonoBehaviour
 {
     [Header("Drag&Drop")]
     [SerializeField] private PlayerStatus status;
     [SerializeField] private PlayerMovement movement;
-    [SerializeField] private GameObject aimCam;
-    [SerializeField] private GameObject mainCam;
+    [SerializeField] private CinemachineVirtualCamera aimCam;
+    [SerializeField] private CinemachineVirtualCamera mainCam;
     
     [SerializeField] private KeyCode aimKey = KeyCode.Mouse1;
 
@@ -74,17 +75,11 @@ public class PlayerController : MonoBehaviour
 
     public void SubscribeEvents()
     {
-        status.IsAiming.Subscribe(value => SetActivateAimCamera(value));
+        status.IsAiming.Subscribe(aimCam.gameObject.SetActive);
     }
 
     public void UnSubscribeEvents()
     {
-        status.IsAiming.Unsubscribe(value => SetActivateAimCamera(value));
-    }
-
-    private void SetActivateAimCamera(bool value)
-    {
-        aimCam.SetActive(value);
-        mainCam.SetActive(!value);
+        status.IsAiming.Unsubscribe(aimCam.gameObject.SetActive);
     }
 }
