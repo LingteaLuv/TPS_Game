@@ -15,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] [Range(-90, 0)] private float minPitch;
     [SerializeField] [Range(0, 90)] private float maxPitch;
     [SerializeField] [Range(0, 5)] private float mouseSensitivity;
+
+    private Vector2 _currentRotation;
     
     private void Awake()
     {
@@ -46,27 +48,23 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 SetAimRotation()
     {
         Vector2 mouseDir = GetMouseDirection();
-
-        Vector2 currentRotation = new()
-        {
-            x = transform.rotation.eulerAngles.x,
-            y = transform.rotation.eulerAngles.y
-        };
-
-        currentRotation.x += mouseDir.x;
-        // y축 회전 각도 제한
-        currentRotation.y += Mathf.Clamp(currentRotation.y + mouseDir.y, minPitch, maxPitch);
+        
+        _currentRotation.x += mouseDir.x;
+        _currentRotation.y += mouseDir.y;
+        
+        // x축 회전 각도 제한
+        _currentRotation.y = Mathf.Clamp(_currentRotation.y, minPitch, maxPitch);
+        
         // 캐릭터 오브젝트의 경우에는 y축 회전만 반영
-        transform.rotation = Quaternion.Euler(0, currentRotation.x, 0);
+        transform.rotation = Quaternion.Euler(0, _currentRotation.x, 0);
+        
         // 에임의 경우 상하 회전 반영
         Vector3 currentEuler = aim.localEulerAngles;
-        aim.localEulerAngles = new Vector3(currentRotation.y, currentEuler.y, currentEuler.z);
+        aim.localEulerAngles = new Vector3(_currentRotation.y, currentEuler.y, currentEuler.z);
         // 회전 방향 벡터 반환
         Vector3 rotateDirVector = transform.forward;
         rotateDirVector.y = 0;
         return rotateDirVector.normalized;
-
-
     }
 
     public void SetBodyRotation()
