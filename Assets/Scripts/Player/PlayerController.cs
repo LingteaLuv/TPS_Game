@@ -68,7 +68,15 @@ public class PlayerController : MonoBehaviour
         if (status.IsAiming.Value) avatarDir = camRotateDir;
         else avatarDir = moveDir;
             
-        movement.SetAvatarRotation(avatarDir);  
+        movement.SetAvatarRotation(avatarDir);
+
+        // aim 상태일때만
+        if (status.IsAiming.Value)
+        {
+            Vector3 input = movement.GetInputDirection();
+            animator.SetFloat("x", input.x);
+            animator.SetFloat("z", input.z);
+        }
     }
 
     private void HandleAiming()
@@ -78,12 +86,16 @@ public class PlayerController : MonoBehaviour
 
     public void SubscribeEvents()
     {
+        status.IsMoving.Subscribe(SetMoveAnimation);
+        
         status.IsAiming.Subscribe(aimCam.gameObject.SetActive);
         status.IsAiming.Subscribe(SetAimAnimation);
     }
 
     public void UnSubscribeEvents()
     {
+        status.IsMoving.Unsubscribe(SetMoveAnimation);
+        
         status.IsAiming.Unsubscribe(aimCam.gameObject.SetActive);
         status.IsAiming.Unsubscribe(SetAimAnimation);
     }
@@ -91,5 +103,10 @@ public class PlayerController : MonoBehaviour
     private void SetAimAnimation(bool value)
     {
         animator.SetBool("IsAim", value);
+    }
+
+    private void SetMoveAnimation(bool value)
+    {
+        animator.SetBool("IsMove", value);
     }
 }

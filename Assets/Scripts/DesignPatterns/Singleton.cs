@@ -34,11 +34,6 @@ namespace DesignPatterns
                 DontDestroyOnLoad(_instance);
             }
         }
-
-        private void Init()
-        {
-        
-        }
     }
 }
 
