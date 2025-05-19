@@ -676,7 +676,7 @@ MonoBehaviour:
   aim: {fileID: 1004397252}
   minPitch: -30
   maxPitch: 30
-  mouseSensitivity: 0.18
+  mouseSensitivity: 1
 --- !u!114 &1140787717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -691,7 +691,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <WalkSpeed>k__BackingField: 2
   <RunSpeed>k__BackingField: 4
-  <RotateSpeed>k__BackingField: 0
+  <RotateSpeed>k__BackingField: 10
 --- !u!136 &1140787718
 CapsuleCollider:
   m_ObjectHideFlags: 0
