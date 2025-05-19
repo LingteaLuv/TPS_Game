@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 // 충돌이 일어나지 않게끔 하기 위한 꼼수
-namespace LSW_Test
+/*namespace LSW_Test
 {
     /// <summary>
     /// Movement 테스트 용으로 구현한 클래스
@@ -56,5 +56,5 @@ namespace LSW_Test
             movement.SetAvatarRotation(avatarDir);
         }
     }
-}
+}*/
 
